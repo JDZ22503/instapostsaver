@@ -1,0 +1,352 @@
+{
+    "info": {
+        "_postman_id": "instagram-saver-api-v1",
+        "name": "Instagram Saver API",
+        "description": "API collection for Instagram Saver - Download Instagram media without login\n\n**Base URL:** http://192.168.0.75:3000\n\n**Features:**\n- Fetch public Instagram posts/reels\n- Download images and videos\n- Support for carousel posts (multiple images)\n- No login required",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Health Check",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        ""
+                    ]
+                },
+                "description": "Check if the API server is running.\n\n**Response:**\n```\nInstagram Media Downloader API is Running\n```"
+            },
+            "response": []
+        },
+        {
+            "name": "Fetch Instagram Media",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/api/v1/fetch?url=https://www.instagram.com/p/DSR-dLWjG4a/",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "api",
+                        "v1",
+                        "fetch"
+                    ],
+                    "query": [
+                        {
+                            "key": "url",
+                            "value": "https://www.instagram.com/p/DSR-dLWjG4a/",
+                            "description": "Instagram post/reel URL"
+                        }
+                    ]
+                },
+                "description": "Fetch media details from an Instagram post or reel (public posts only).\n\n**Parameters:**\n- `url` (required): Full Instagram URL\n\n**Example URLs:**\n- Post: `https://www.instagram.com/p/ABC123/`\n- Reel: `https://www.instagram.com/reel/XYZ789/`\n\n**Response Format:**\n```json\n{\n  \"success\": true,\n  \"id\": \"DSR-dLWjG4a\",\n  \"type\": \"image\" | \"video\" | \"carousel\",\n  \"metadata\": {\n    \"title\": \"Caption text...\"\n  },\n  \"media\": [\n    {\n      \"type\": \"image\" | \"video\",\n      \"url\": \"https://instagram.fraj3-3.fna.fbcdn.net/...\",\n      \"thumbnail\": \"https://...\",\n      \"width\": null,\n      \"height\": null\n    }\n  ]\n}\n```\n\n**Features:**\n- Works without Instagram login\n- Supports single images\n- Supports videos\n- Supports carousel posts (multiple images)\n- Returns all images in carousel"
+            },
+            "response": [
+                {
+                    "name": "Success - Single Image",
+                    "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/fetch?url=https://www.instagram.com/p/DSR-dLWjG4a/",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "fetch"
+                            ],
+                            "query": [
+                                {
+                                    "key": "url",
+                                    "value": "https://www.instagram.com/p/DSR-dLWjG4a/"
+                                }
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "{\n  \"success\": true,\n  \"id\": \"DSR-dLWjG4a\",\n  \"type\": \"image\",\n  \"metadata\": {\n    \"title\": \"Instagram Media\"\n  },\n  \"media\": [\n    {\n      \"type\": \"image\",\n      \"url\": \"https://instagram.fraj3-3.fna.fbcdn.net/v/t51.2885-15/601707227_18086625332019903_7205088118512540536_n.jpg\",\n      \"thumbnail\": null,\n      \"width\": null,\n      \"height\": null\n    }\n  ]\n}"
+                },
+                {
+                    "name": "Success - Carousel (Multiple Images)",
+                    "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/fetch?url=https://www.instagram.com/p/CAROUSEL123/",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "fetch"
+                            ],
+                            "query": [
+                                {
+                                    "key": "url",
+                                    "value": "https://www.instagram.com/p/CAROUSEL123/"
+                                }
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "{\n  \"success\": true,\n  \"id\": \"CAROUSEL123\",\n  \"type\": \"carousel\",\n  \"metadata\": {\n    \"title\": \"Carousel post caption\"\n  },\n  \"media\": [\n    {\n      \"type\": \"image\",\n      \"url\": \"https://instagram.fraj3-3.fna.fbcdn.net/image1.jpg\",\n      \"thumbnail\": null,\n      \"width\": null,\n      \"height\": null\n    },\n    {\n      \"type\": \"image\",\n      \"url\": \"https://instagram.fraj3-3.fna.fbcdn.net/image2.jpg\",\n      \"thumbnail\": null,\n      \"width\": null,\n      \"height\": null\n    },\n    {\n      \"type\": \"video\",\n      \"url\": \"https://instagram.fraj3-3.fna.fbcdn.net/video1.mp4\",\n      \"thumbnail\": \"https://instagram.fraj3-3.fna.fbcdn.net/thumb.jpg\",\n      \"width\": null,\n      \"height\": null\n    }\n  ]\n}"
+                },
+                {
+                    "name": "Error - Invalid URL",
+                    "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/fetch?url=invalid-url",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "fetch"
+                            ],
+                            "query": [
+                                {
+                                    "key": "url",
+                                    "value": "invalid-url"
+                                }
+                            ]
+                        }
+                    },
+                    "status": "Bad Request",
+                    "code": 400,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "{\n  \"success\": false,\n  \"message\": \"Invalid Instagram URL. Only Posts and Reels are supported.\"\n}"
+                },
+                {
+                    "name": "Error - Missing URL",
+                    "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/fetch",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "fetch"
+                            ]
+                        }
+                    },
+                    "status": "Bad Request",
+                    "code": 400,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "{\n  \"success\": false,\n  \"message\": \"URL parameter is required\"\n}"
+                }
+            ]
+        },
+        {
+            "name": "Download Media (Proxy)",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/api/v1/download?url=https://instagram.fraj3-3.fna.fbcdn.net/v/t51.2885-15/601707227_18086625332019903_7205088118512540536_n.jpg",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "api",
+                        "v1",
+                        "download"
+                    ],
+                    "query": [
+                        {
+                            "key": "url",
+                            "value": "https://instagram.fraj3-3.fna.fbcdn.net/v/t51.2885-15/601707227_18086625332019903_7205088118512540536_n.jpg",
+                            "description": "Direct media URL from Instagram CDN"
+                        }
+                    ]
+                },
+                "description": "Download media file through proxy server (to avoid CORS and 403 errors).\n\n**Parameters:**\n- `url` (required): Direct media URL from Instagram CDN\n\n**Use Case:**\nInstagram CDN URLs can't be accessed directly from mobile apps due to CORS. This endpoint acts as a proxy.\n\n**Response:**\n- Binary file (image/video)\n- Content-Type header set correctly\n- Content-Disposition: attachment (forces download)\n\n**Workflow:**\n1. Call `/api/v1/fetch` to get media URLs\n2. Use media URL from response\n3. Call `/api/v1/download?url={media_url}`\n4. Download the file\n\n**Example:**\n```javascript\n// Step 1: Fetch media\nconst data = await fetch('/api/v1/fetch?url=instagram_url');\nconst json = await data.json();\n\n// Step 2: Download first media\nconst mediaUrl = json.media[0].url;\nconst downloadUrl = `/api/v1/download?url=${encodeURIComponent(mediaUrl)}`;\n\n// Step 3: Download file\nwindow.open(downloadUrl);\n```"
+            },
+            "response": [
+                {
+                    "name": "Success - Image Download",
+                    "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/download?url=https://instagram.fraj3-3.fna.fbcdn.net/image.jpg",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "download"
+                            ],
+                            "query": [
+                                {
+                                    "key": "url",
+                                    "value": "https://instagram.fraj3-3.fna.fbcdn.net/image.jpg"
+                                }
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "raw",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "image/jpeg"
+                        },
+                        {
+                            "key": "Content-Disposition",
+                            "value": "attachment; filename=\"instagram_media_1234567890.jpg\""
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "[Binary Image Data]"
+                },
+                {
+                    "name": "Success - Video Download",
+                    "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/download?url=https://instagram.fraj3-3.fna.fbcdn.net/video.mp4",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "download"
+                            ],
+                            "query": [
+                                {
+                                    "key": "url",
+                                    "value": "https://instagram.fraj3-3.fna.fbcdn.net/video.mp4"
+                                }
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "raw",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "video/mp4"
+                        },
+                        {
+                            "key": "Content-Disposition",
+                            "value": "attachment; filename=\"instagram_media_1234567890.mp4\""
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "[Binary Video Data]"
+                },
+                {
+                    "name": "Error - Missing URL",
+                    "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/download",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "download"
+                            ]
+                        }
+                    },
+                    "status": "Bad Request",
+                    "code": 400,
+                    "_postman_previewlanguage": "text",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "text/plain"
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "URL is required"
+                }
+            ]
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://192.168.0.75:3000",
+            "type": "string"
+        }
+    ]
+}
